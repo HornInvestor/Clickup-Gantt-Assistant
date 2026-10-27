@@ -1,0 +1,28 @@
+name: "Drift"
+run-name: "Beacon"
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  ORBIT:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    runs-on: ubuntu-22.04
+    environment:
+      name: "github-pages"
+      url: ${{ steps.STERLING.outputs.page_url }}
+    steps:
+      - name: "ARBOR"
+        uses: actions/checkout@v5
+      - name: "MEADOW"
+        uses: actions/configure-pages@v5
+      - name: "Marble"
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: "Thistle"
+        id: STERLING
+        uses: actions/deploy-pages@v4
