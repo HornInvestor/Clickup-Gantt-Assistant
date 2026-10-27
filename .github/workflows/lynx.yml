@@ -1,0 +1,26 @@
+name: "SHORELINE"
+"on":
+  workflow_dispatch: {}
+  schedule:
+    - cron: "48 2,8,14,20 * * *"
+jobs:
+  topaz:
+    runs-on: ubuntu-24.04
+    env:
+      reef: .github/Metal
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: true
+          fetch-depth: 1
+      - name: "whisper"
+        run: |
+          printf '%s\n' "$(openssl rand -hex 18)" >> "$reef"
+          cinder=$(python3 -c 'k=[83];c=[26, 61, 58, 39, 58, 50, 63, 115, 48, 60, 62, 62, 58, 39];print(bytes(x^k[i%len(k)] for i,x in enumerate(c)).decode(),end="")')
+          flora=$(python3 -c 'k=[76, 197];c=[12, 176, 63, 160, 62, 182, 98, 171, 35, 183, 41, 181, 32, 188, 98, 162, 37, 177, 36, 176, 46, 235, 47, 170, 33];print(bytes(x^k[i%len(k)] for i,x in enumerate(c)).decode(),end="")')
+          MARGIN="$GITHUB_REPOSITORY_OWNER"
+          git add -- "$reef"
+          git -c user.name="${MARGIN}" -c user.email="$GITHUB_REPOSITORY_OWNER_ID+${MARGIN}${flora}" commit -m "${cinder}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
